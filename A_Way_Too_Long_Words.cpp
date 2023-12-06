@@ -21,7 +21,7 @@ int main()
 
         len = str[i].length();
 
-        if(len>=10)
+        if(len>10)
         {
             temp_str = str[i];
             firstChar = temp_str[0];
