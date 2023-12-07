@@ -1,4 +1,6 @@
 
-*.exe
-*.json
 *.prob
+*.json
+*.md
+*.md
+README.md
