@@ -9,21 +9,6 @@ using namespace std;
 using ll = long long;
 const ll MOD = 1000000007;
 
-bool allElementsEqual(const std::vector<ll> &vec)
-{
-
-    ll firstElement = vec[0];
-    for (ll i = 1; i < vec.size(); ++i)
-    {
-        if (vec[i] != firstElement)
-        {
-            return false;
-        }
-    }
-
-    return true;
-}
-
 int main()
 {
     FAST;
@@ -35,50 +20,37 @@ int main()
     {
         ll n, k;
         cin >> n >> k;
-        ll score = 0;
+
         vector<ll> pn(n);
-        bool allpos = 1;
         for (ll i = 0; i < n; i++)
         {
 
             cin >> pn[i];
-            if (pn[i] < 0)
-            {
-                allpos = 0;
-            }
         }
-        ll sum = accumulate(pn.begin(), pn.end(), 0);
-
-        while (k--)
+        ll curSum = 0;
+        ll maxSum = 0;
+        for (auto &x : pn)
         {
 
-            if (sum < 0)
-            {
-                break;
-            }
-            if (allpos)
-            {
-                sum = accumulate(pn.begin(), pn.end(), 0);
-                pn.push_back(sum);
-            }
-            else
-            {
-                sum = accumulate(pn.begin(), pn.begin() + 3, 0);
-                pn.insert(pn.begin(), sum);
-            }
+            curSum = curSum + x;
+            if (curSum < x)
+
+                curSum = x;
+
+            if (maxSum < curSum)
+                maxSum = curSum;
         }
-        if (allElementsEqual(pn))
+
+        ll sum = (accumulate(pn.begin(), pn.end(), 0ll) % MOD + MOD) % MOD; // if we just negetive moduler the sum part there is no chane to get a negetive number
+
+        for (ll i = 0; i < k; i++)
         {
-            sum = pn[0];
-            score = (sum % MOD + MOD) % MOD;
-            cout << score*n << "\n";
+            sum = (sum + maxSum) % MOD;//why % MOD bc, positive number
+            maxSum = (maxSum*2) % MOD;//why % MOD bc, positive number
         }
-        else
-        {
-            sum = accumulate(pn.begin(), pn.end(), 0);
-            score = (sum % MOD + MOD) % MOD;
-            cout << score << "\n";
-        }
+
+        cout
+            << sum << "\n";
     }
 
     return 0;
